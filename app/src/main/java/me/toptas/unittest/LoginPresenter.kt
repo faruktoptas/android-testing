@@ -1,21 +1,18 @@
 package me.toptas.unittest
 
 
-class LoginPresenter(private val view: LoginView) {
+class LoginPresenter(private val view: LoginView, private val repository: LoginRepository) {
 
     fun login(user: String, pass: String) {
-        val repository = LoginRepositoryImpl()
-        val result = repository.login(user, pass)
+        repository.login(user, pass, object : LoginCallback {
+            override fun success(login: Login) {
+                view.onLoginSuccess()
+            }
 
-        if (result.success != null) {
-            view.onLoginSuccess()
-        }
-
-        result.error?.apply {
-            view.onLoginFail(this)
-        }
-
-
+            override fun fail(error: Throwable) {
+                view.onLoginFail(error)
+            }
+        })
     }
 }
 

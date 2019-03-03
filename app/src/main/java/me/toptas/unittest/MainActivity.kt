@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity(), LoginView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val presenter = LoginPresenter(this)
+        val presenter = LoginPresenter(this, LoginRepositoryImpl())
         btnLogin.setOnClickListener {
             presenter.login("user", "pass")
         }
